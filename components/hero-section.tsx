@@ -9,7 +9,7 @@ import { ProgressiveBlur } from '@/components/ui/progressive-blur'
 import { HermesBackground } from '@/components/hermes-background'
 import { CompanyLogo } from '@/components/company-logo'
 import { useLanguage } from '@/components/language-provider'
-import { UnicornStudio } from '@/components/unicorn-studio'
+import { InteractiveEffectPositioner } from '@/components/interactive-effect-positioner'
 
 export default function HeroSection() {
     const { language } = useLanguage()
@@ -60,12 +60,12 @@ export default function HeroSection() {
                     <div className="absolute inset-0 -z-10">
                         <HermesBackground />
                     </div>
-                    <div className="absolute inset-0 z-0" style={{ pointerEvents: 'none', mixBlendMode: 'screen' }}>
-                        <UnicornStudio 
-                            jsonFilePath={jsonPath}
-                            width="100%"
-                            height="100%"
-                            key={jsonPath} // Force re-render when path changes
+                    <div className="absolute inset-0 z-20" style={{ mixBlendMode: 'screen' }}>
+                        <InteractiveEffectPositioner 
+                            jsonPath={jsonPath}
+                            onPositionsSaved={(positions) => {
+                                console.log('Positions saved:', positions)
+                            }}
                         />
                     </div>
                     <div className="relative z-10 flex min-h-screen items-center py-12 sm:py-16 lg:py-24">

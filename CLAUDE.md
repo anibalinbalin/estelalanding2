@@ -88,3 +88,4 @@ The project uses a combination of:
 6. Do not use npm but pnpm. Do not start a new server instance, I have already localhost:3000 running.
 7. Always do a .md file to start noting the changes we are doing. So we can have track.
 8. If you have a doubt about something, ask me first. Do not go alone if you not at certain of what I mean in the promnt.
+9. You have mcp servers at your disposal. If the case is that we are stuck after two iterations please consider using the mcp servers to aid you.
