@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -5,8 +7,31 @@ import Image from 'next/image'
 import { InfiniteSlider } from '@/components/ui/infinite-slider'
 import { ProgressiveBlur } from '@/components/ui/progressive-blur'
 import { HermesBackground } from '@/components/hermes-background'
+import { CompanyLogo } from '@/components/company-logo'
+import { useLanguage } from '@/components/language-provider'
 
 export default function HeroSection() {
+    const { language } = useLanguage()
+    
+    const content = {
+        en: {
+            title: "When technology meets wisdom",
+            subtitle: "Guiding businesses through technological transformations with the perfect balance of trusted expertise and innovative insight.",
+            startBuilding: "Start Building",
+            requestDemo: "Request a demo",
+            powering: "Powering the best teams"
+        },
+        es: {
+            title: "Cuando la tecnología y el conocimiento convergen",
+            subtitle: "Guiando a las empresas a través de transformaciones tecnológicas con soluciones y claridad que solo un equipo ágil y especializado puede brindar.",
+            startBuilding: "Comenzar",
+            requestDemo: "Solicitar demo",
+            powering: "Impulsando a los mejores equipos"
+        }
+    }
+
+    const t = content[language]
+
     return (
         <>
             <main className="overflow-x-hidden">
@@ -15,18 +40,43 @@ export default function HeroSection() {
                         <HermesBackground />
                     </div>
                     <div className="relative z-10 flex min-h-screen items-center pb-24 pt-12">
-                        <div className="mx-auto flex max-w-6xl flex-col px-6 lg:block">
-                            <div className="mx-auto max-w-lg text-center lg:ml-0 lg:w-1/2 lg:text-left">
-                                <h1 className="max-w-2xl text-balance text-5xl font-medium md:text-6xl xl:text-7xl">Ship 10x Faster with NS</h1>
-                                <p className="mt-8 max-w-2xl text-pretty text-lg">Highly customizable components for building modern websites and applications that look and feel the way you mean it.</p>
+                        <div className="mx-auto flex max-w-6xl flex-col px-6 lg:block lg:w-full">
+                            <div className="mx-auto max-w-lg text-left lg:ml-0 lg:max-w-[50%]">
+                                <CompanyLogo />
+                                <h1 
+                                    className="max-w-2xl text-balance dark:text-[#f7f8f8]" 
+                                    style={{
+                                        fontFamily: 'var(--font-inter), "SF Pro Display", -apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif',
+                                        fontSize: '56px',
+                                        lineHeight: '61.6px',
+                                        fontWeight: 400,
+                                        letterSpacing: 'normal',
+                                        color: '#2f2f31'
+                                    }}
+                                >
+                                    {t.title}
+                                </h1>
+                                <p 
+                                    className="mt-8 max-w-2xl text-pretty dark:text-[#ffffffb3]"
+                                    style={{
+                                        fontFamily: 'var(--font-inter), "SF Pro Display", -apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif',
+                                        fontSize: '21px',
+                                        lineHeight: '27.93px',
+                                        fontWeight: 400,
+                                        letterSpacing: 'normal',
+                                        color: '#5b5c5d'
+                                    }}
+                                >
+                                    {t.subtitle}
+                                </p>
 
-                                <div className="mt-12 flex flex-col items-center justify-center gap-2 sm:flex-row lg:justify-start">
+                                <div className="mt-12 flex flex-col items-start justify-start gap-2 sm:flex-row">
                                     <Button
                                         asChild
                                         size="lg"
                                         className="px-5 text-base">
                                         <Link href="#link">
-                                            <span className="text-nowrap">Start Building</span>
+                                            <span className="text-nowrap">{t.startBuilding}</span>
                                         </Link>
                                     </Button>
                                     <Button
@@ -36,7 +86,7 @@ export default function HeroSection() {
                                         variant="ghost"
                                         className="px-5 text-base">
                                         <Link href="#link">
-                                            <span className="text-nowrap">Request a demo</span>
+                                            <span className="text-nowrap">{t.requestDemo}</span>
                                         </Link>
                                     </Button>
                                 </div>
@@ -48,7 +98,7 @@ export default function HeroSection() {
                     <div className="group relative m-auto max-w-6xl px-6">
                         <div className="flex flex-col items-center md:flex-row">
                             <div className="md:max-w-44 md:border-r md:pr-6">
-                                <p className="text-end text-sm">Powering the best teams</p>
+                                <p className="text-left text-sm">{t.powering}</p>
                             </div>
                             <div className="relative py-6 md:w-[calc(100%-11rem)]">
                                 <InfiniteSlider

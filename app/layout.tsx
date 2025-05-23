@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import { ThemeSwitcher } from "@/components/ui/kibo-ui/theme-switcher";
+import { ToolbarSwitcher } from "@/components/ui/toolbar-switcher";
 import { ThemeProvider } from "@/components/theme-provider";
+import { LanguageProvider } from "@/components/language-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -11,6 +12,11 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
@@ -27,13 +33,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
       >
         <ThemeProvider defaultTheme="system">
-          <header className="fixed top-4 right-4 z-50">
-            <ThemeSwitcher />
-          </header>
-          {children}
+          <LanguageProvider defaultLanguage="es">
+            <header className="fixed top-4 right-4 z-50">
+              <ToolbarSwitcher />
+            </header>
+            {children}
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

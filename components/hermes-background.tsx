@@ -59,7 +59,7 @@ export function HermesBackground() {
       
       {/* Fallback */}
       <Image
-        className="h-full w-full object-cover"
+        className="h-full w-full object-cover object-right"
         src={`/hermes/${themeFolder}/hermes_desktop_hd${suffix}.png`}
         alt="Hermes Background"
         fill
