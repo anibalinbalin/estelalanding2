@@ -1,43 +1,55 @@
-# Changes Tracking
+# Changes Log
 
 ## 2025-01-22
 
-### Language Toggle Feature
-- Created `LanguageProvider` component for managing language state across the application
-- Created `ToolbarSwitcher` component that combines both theme and language switching in a single unified toolbar
-- Language toggle uses Chinese character (文) icon and is integrated within the same bar as theme switches
-- Added visual divider between language and theme toggles for better UI organization
-- Updated hero section to be language-aware with translations for:
-  - H1 title
-  - Subtitle description
-  - Button labels ("Start Building" / "Comenzar", "Request a demo" / "Solicitar demo")
-  - "Powering the best teams" text
-- Language preference is persisted in localStorage
-- Default language is set to Spanish (es)
-- Active language state is highlighted with same styling as theme selection
+### Background Position Fix
+- Fixed Hermes background shift when changing languages
+- Added `object-right` positioning to maintain consistent position
+- Updated hero section layout to use flexible max-width
 
-### Text Alignment Fix
-- Changed text alignment in hero section from right to left across all breakpoints
-- Updated company logo alignment
-- Fixed "Powering the best teams" section alignment
+### Light Mode Text Colors
+- Updated h1 color to #2f2f31 in light mode
+- Updated subtitle color to #5b5c5d in light mode
+- Maintained dark mode colors (h1: #f7f8f8, subtitle: #ffffffb3)
 
-### Typography Updates
-- Added Inter font from Google Fonts to the project
-- Updated H1 styling:
-  - Font: Inter Variable with system font fallbacks
-  - Size: 56px
-  - Line Height: 61.6px
-  - Weight: 400 (Regular)
-  - Color: #F7F8F8
-- Updated subtitle styling:
-  - Font: Inter Variable with system font fallbacks
-  - Size: 21px
-  - Line Height: 27.93px
-  - Weight: 400 (Regular)
-  - Color: #F7F8F8
+### Responsive Typography System (Based on Linear.app)
+- Implemented exact typography values matching Linear's design system:
+  - Mobile (<640px): 32px heading, 36px line-height, -0.704px letter-spacing
+  - Tablet (640-1024px): 40px heading, 44px line-height, -0.8px letter-spacing  
+  - Desktop (>1024px): 56px heading, 61.6px line-height, -1.12px letter-spacing
+- Updated font configuration:
+  - Added Inter variable font with weights 400, 500, 600
+  - Applied font-weight 500 (medium) to headings matching Linear
+  - Used proper CSS variable references for font-family
+- Subtitle responsive sizing:
+  - Mobile: 16px, 22px line-height
+  - Tablet: 18px, 24px line-height, -0.18px letter-spacing
+  - Desktop: 21px, 28px line-height, -0.21px letter-spacing
+- Fixed JSX self-closing tag syntax for better code standards
 
-### Styling
-- Language switcher matches the theme switcher styling
-- Positioned to the left of the theme switcher in the header toolbar
-- Uses same rounded button style and hover effects
-- Includes smooth animation transitions when toggling languages
+### Linear Design System Analysis
+- Created scripts to analyze Linear.app's design system:
+  - `/scripts/analyze-linear.js` - Browser console script to extract CSS variables
+  - `/scripts/generate-linear-css.js` - Generate CSS from design tokens
+- Updated `/lib/design-tokens.ts` with comprehensive Linear-inspired typography system:
+  - Text sizes: micro (11px) through large (18px) with line heights and letter spacing
+  - Title sizes: 8 levels with responsive behavior (desktop/tablet/mobile)
+  - Each title level has specific size, line height, and letter spacing per breakpoint
+  - Added helper functions to generate CSS variables and responsive styles
+- Extracted Linear's exact typography values from live analysis:
+  - Mobile (<640px): 32px size, 36px line-height, -0.704px letter-spacing
+  - Desktop (≥640px): 64px size, 67.84px line-height, -1.408px letter-spacing
+  - Font-weight: 510 (custom Inter Variable weight)
+  - Font stack: "Inter Variable", "SF Pro Display", -apple-system, system-ui, etc.
+  - Breakpoints: 640px (primary), 768px, 1024px, 1280px, 1536px
+  - Discovered they use 700px for some components and 600px for others
+
+### Linear Design System Implementation
+- Updated `/components/hero-section.tsx` with Linear's exact values:
+  - Changed breakpoint from `sm:` to `min-[640px]:` for precise control
+  - Maintained font-[510] to match Linear's exact weight
+  - Typography now transitions at exactly 640px matching Linear's behavior
+- Comprehensive design token system created in `/lib/design-tokens.ts`
+- Analysis scripts available for further exploration
+  - Added exact pixel values with em equivalents
+  - Updated helper functions for single breakpoint system

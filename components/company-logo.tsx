@@ -31,7 +31,7 @@ export function CompanyLogo() {
         alt="Company Logo"
         width={200}
         height={60}
-        className="mb-6"
+        className="mb-6 w-[100px] h-auto sm:w-[200px]"
         priority
       />
     )
@@ -45,7 +45,7 @@ export function CompanyLogo() {
       alt="Company Logo"
       width={200}
       height={60}
-      className="mb-6"
+      className="mb-6 w-[100px] h-auto sm:w-[200px]"
       priority
     />
   )

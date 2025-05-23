@@ -39,38 +39,30 @@ export default function HeroSection() {
                     <div className="absolute inset-0 -z-10">
                         <HermesBackground />
                     </div>
-                    <div className="relative z-10 flex min-h-screen items-center pb-24 pt-12">
-                        <div className="mx-auto flex max-w-6xl flex-col px-6 lg:block lg:w-full">
-                            <div className="mx-auto max-w-lg text-left lg:ml-0 lg:max-w-[50%]">
+                    <div className="relative z-10 flex min-h-screen items-center py-12 sm:py-16 lg:py-24">
+                        <div className="max-w-6xl px-4 sm:px-6 lg:px-8 w-full sm:mx-auto">
+                            <div className="max-w-[50%] text-left">
                                 <CompanyLogo />
-                                <h1 
-                                    className="max-w-2xl text-balance dark:text-[#f7f8f8]" 
-                                    style={{
-                                        fontFamily: 'var(--font-inter), "SF Pro Display", -apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif',
-                                        fontSize: '56px',
-                                        lineHeight: '61.6px',
-                                        fontWeight: 400,
-                                        letterSpacing: 'normal',
-                                        color: '#2f2f31'
-                                    }}
-                                >
-                                    {t.title}
+                                <h1 className="text-balance text-[#2f2f31] dark:text-[#f7f8f8]"> 
+                                    <span className="block text-[32px] leading-[36px] tracking-[-0.704px] min-[640px]:text-[64px] min-[640px]:leading-[67.84px] min-[640px]:tracking-[-1.408px] font-[510]" 
+                                        style={{
+                                            fontFamily: 'var(--font-inter), "SF Pro Display", -apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+                                        }}
+                                    >
+                                        {t.title}
+                                    </span>
                                 </h1>
-                                <p 
-                                    className="mt-8 max-w-2xl text-pretty dark:text-[#ffffffb3]"
-                                    style={{
-                                        fontFamily: 'var(--font-inter), "SF Pro Display", -apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif',
-                                        fontSize: '21px',
-                                        lineHeight: '27.93px',
-                                        fontWeight: 400,
-                                        letterSpacing: 'normal',
-                                        color: '#5b5c5d'
-                                    }}
-                                >
-                                    {t.subtitle}
+                                <p className="mt-6 sm:mt-8 text-pretty text-[#5b5c5d] dark:text-[#ffffffb3]">  
+                                    <span className="block text-[16px] leading-[22px] tracking-normal sm:text-[18px] sm:leading-[24px] sm:tracking-[-0.18px] lg:text-[21px] lg:leading-[28px] lg:tracking-[-0.21px]"
+                                        style={{
+                                            fontFamily: 'var(--font-inter), "SF Pro Display", -apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+                                        }}
+                                    >
+                                        {t.subtitle}
+                                    </span>
                                 </p>
 
-                                <div className="mt-12 flex flex-col items-start justify-start gap-2 sm:flex-row">
+                                <div className="mt-8 sm:mt-10 lg:mt-12 flex flex-col items-start justify-start gap-2 sm:flex-row">
                                     <Button
                                         asChild
                                         size="lg"
@@ -94,8 +86,8 @@ export default function HeroSection() {
                         </div>
                     </div>
                 </section>
-                <section className="bg-background pb-16 md:pb-32">
-                    <div className="group relative m-auto max-w-6xl px-6">
+                <section className="bg-background pb-16 sm:pb-20 lg:pb-32">
+                    <div className="group relative m-auto max-w-6xl px-4 sm:px-6 lg:px-8">
                         <div className="flex flex-col items-center md:flex-row">
                             <div className="md:max-w-44 md:border-r md:pr-6">
                                 <p className="text-left text-sm">{t.powering}</p>
@@ -182,8 +174,8 @@ export default function HeroSection() {
                                 </InfiniteSlider>
 
                                 {/* Enhanced blur effects with proper iOS support */}
-                                <div className="bg-linear-to-r from-background absolute inset-y-0 left-0 w-20" style={{zIndex: 2}}></div>
-                                <div className="bg-linear-to-l from-background absolute inset-y-0 right-0 w-20" style={{zIndex: 2}}></div>
+                                <div className="bg-linear-to-r from-background absolute inset-y-0 left-0 w-20" style={{zIndex: 2}} />
+                                <div className="bg-linear-to-l from-background absolute inset-y-0 right-0 w-20" style={{zIndex: 2}} />
                                 
                                 <ProgressiveBlur
                                     className="pointer-events-none absolute left-0 top-0 h-full w-20"
