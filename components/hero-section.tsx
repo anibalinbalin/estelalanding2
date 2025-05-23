@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
@@ -9,9 +9,30 @@ import { ProgressiveBlur } from '@/components/ui/progressive-blur'
 import { HermesBackground } from '@/components/hermes-background'
 import { CompanyLogo } from '@/components/company-logo'
 import { useLanguage } from '@/components/language-provider'
+import { UnicornStudio } from '@/components/unicorn-studio'
 
 export default function HeroSection() {
     const { language } = useLanguage()
+    const [jsonPath, setJsonPath] = useState('/unicorn-effect.json')
+    
+    // Handle responsive JSON loading
+    React.useEffect(() => {
+        const updateJsonPath = () => {
+            const width = window.innerWidth
+            if (width < 640) {
+                setJsonPath('/Polaris (Remix)_mobile.json')
+            } else if (width < 1024) {
+                setJsonPath('/Polaris (Remix)_tablet.json')
+            } else {
+                setJsonPath('/unicorn-effect.json')
+            }
+        }
+        
+        updateJsonPath()
+        window.addEventListener('resize', updateJsonPath)
+        
+        return () => window.removeEventListener('resize', updateJsonPath)
+    }, [])
     
     const content = {
         en: {
@@ -38,6 +59,14 @@ export default function HeroSection() {
                 <section className="relative min-h-screen">
                     <div className="absolute inset-0 -z-10">
                         <HermesBackground />
+                    </div>
+                    <div className="absolute inset-0 z-0" style={{ pointerEvents: 'none', mixBlendMode: 'screen' }}>
+                        <UnicornStudio 
+                            jsonFilePath={jsonPath}
+                            width="100%"
+                            height="100%"
+                            key={jsonPath} // Force re-render when path changes
+                        />
                     </div>
                     <div className="relative z-10 flex min-h-screen items-center py-12 sm:py-16 lg:py-24">
                         <div className="max-w-6xl px-4 sm:px-6 lg:px-8 w-full sm:mx-auto">
