@@ -2,13 +2,13 @@
 
 import { useTheme } from '@/components/theme-provider'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef, memo } from 'react'
 
-export function HermesBackground() {
+export const HermesBackground = memo(function HermesBackground() {
   const { theme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light')
-  const [currentImage, setCurrentImage] = useState<string>('')
+  const imageRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setMounted(true)
@@ -25,81 +25,88 @@ export function HermesBackground() {
     }
   }, [theme, mounted])
 
-  useEffect(() => {
-    if (!mounted) return
-    
-    const updateCurrentImage = () => {
-      const width = window.innerWidth
-      const themeFolder = resolvedTheme === 'dark' ? 'night' : 'light'
-      const suffix = resolvedTheme === 'dark' ? '_night' : ''
-      
-      if (width >= 1024) {
-        setCurrentImage(`hermes_desktop_hd${suffix}.png`)
-      } else if (width >= 768) {
-        setCurrentImage(`hermes_tablet${suffix}.png`)
-      } else {
-        setCurrentImage(`hermes_mobile${suffix}.png`)
-      }
-    }
-    
-    updateCurrentImage()
-    window.addEventListener('resize', updateCurrentImage)
-    
-    return () => window.removeEventListener('resize', updateCurrentImage)
-  }, [mounted, resolvedTheme])
+  // Use a single container that doesn't re-render on language change
+  const containerStyle = {
+    position: 'absolute' as const,
+    inset: 0,
+    width: '100%',
+    height: '100%',
+  }
 
   if (!mounted) {
     return (
-      <>
+      <div style={containerStyle}>
         <Image
           className="h-full w-full object-cover"
           src="/hermes/light/hermes_desktop_hd.png"
           alt="Hermes Background"
           fill
           priority
+          sizes="100vw"
+          style={{ objectPosition: 'center' }}
         />
-        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-md text-sm font-mono z-50">
-          Loading: hermes_desktop_hd.png
-        </div>
-      </>
+      </div>
     )
   }
 
   const themeFolder = resolvedTheme === 'dark' ? 'night' : 'light'
-  const suffix = resolvedTheme === 'dark' ? '_night' : ''
+
+  // Determine image based on viewport
+  const getImageSrc = () => {
+    if (typeof window === 'undefined') return `/hermes/${themeFolder}/hermes_desktop_hd${resolvedTheme === 'dark' ? '_night' : ''}.png`
+    
+    const width = window.innerWidth
+    const suffix = resolvedTheme === 'dark' ? '_night' : ''
+    
+    if (width >= 1024) {
+      return `/hermes/${themeFolder}/hermes_desktop_hd${suffix}.png`
+    } else if (width >= 768) {
+      return `/hermes/${themeFolder}/hermes_tablet${suffix}.png`
+    } else {
+      return `/hermes/${themeFolder}/hermes_mobile${suffix}.png`
+    }
+  }
 
   return (
-    <>
-      <picture className="h-full w-full">
+    <div ref={imageRef} style={containerStyle}>
+      <picture className="h-full w-full block">
         {/* Desktop images */}
         <source 
           media="(min-width: 1024px)" 
-          srcSet={`/hermes/${themeFolder}/hermes_desktop_hd${suffix}.png 1920w, /hermes/${themeFolder}/hermes_desktop_retina${suffix}.png 2880w`}
+          srcSet={`/hermes/${themeFolder}/hermes_desktop_hd${resolvedTheme === 'dark' ? '_night' : ''}.png`}
         />
         {/* Tablet images */}
         <source 
           media="(min-width: 768px)" 
-          srcSet={`/hermes/${themeFolder}/hermes_tablet${suffix}.png`}
+          srcSet={`/hermes/${themeFolder}/hermes_tablet${resolvedTheme === 'dark' ? '_night' : ''}.png`}
         />
         {/* Mobile images */}
         <source 
           media="(max-width: 767px)" 
-          srcSet={`/hermes/${themeFolder}/hermes_mobile${suffix}.png 375w, /hermes/${themeFolder}/hermes_mobile_low${suffix}.png 320w`}
+          srcSet={`/hermes/${themeFolder}/hermes_mobile${resolvedTheme === 'dark' ? '_night' : ''}.png`}
         />
         
-        {/* Fallback */}
+        {/* Fallback with Next.js Image */}
         <Image
-          className="h-full w-full object-cover object-right"
-          src={`/hermes/${themeFolder}/hermes_desktop_hd${suffix}.png`}
+          className="h-full w-full object-cover"
+          src={getImageSrc()}
           alt="Hermes Background"
           fill
           priority
+          sizes="100vw"
+          style={{ 
+            objectPosition: 'center',
+            // Prevent layout shift by keeping dimensions stable
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%'
+          }}
+          // Prevent re-loading on prop changes
+          unoptimized={false}
         />
       </picture>
-      {/* Temporary overlay showing current image */}
-      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-md text-sm font-mono z-50">
-        Current: {currentImage || 'Detecting...'}
-      </div>
-    </>
+    </div>
   )
-}
+})

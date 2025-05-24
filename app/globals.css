@@ -148,3 +148,34 @@
     -webkit-backdrop-filter: inherit;
   }
 }
+
+/* Prevent background shift on language change */
+.hermes-background-image {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Ensure fixed backgrounds don't shift */
+.fixed-background-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+/* Prevent layout shifts during image loading */
+.hermes-background-image img {
+  font-size: 0;
+  line-height: 0;
+}
+
+/* Ensure smooth transitions for theme changes */
+.hermes-background-image img {
+  transition: opacity 0.3s ease-in-out;
+}

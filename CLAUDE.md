@@ -89,3 +89,4 @@ The project uses a combination of:
 7. Always do a .md file to start noting the changes we are doing. So we can have track.
 8. If you have a doubt about something, ask me first. Do not go alone if you not at certain of what I mean in the promnt.
 9. You have mcp servers at your disposal. If the case is that we are stuck after two iterations please consider using the mcp servers to aid you.
+10. always check documentation if you no are 100% confident on how to approach a problem. You have context7 mcp server for that.

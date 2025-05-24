@@ -1,38 +1,37 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { memo } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import Image from 'next/image'
 import { InfiniteSlider } from '@/components/ui/infinite-slider'
 import { ProgressiveBlur } from '@/components/ui/progressive-blur'
 import { HermesBackground } from '@/components/hermes-background'
 import { CompanyLogo } from '@/components/company-logo'
 import { useLanguage } from '@/components/language-provider'
-import { InteractiveEffectPositioner } from '@/components/interactive-effect-positioner'
+import { UnicornStudio } from '@/components/unicorn-studio'
+
+// Memoize background layers to prevent re-renders on language change
+const BackgroundLayers = memo(function BackgroundLayers() {
+    return (
+        <>
+            <div className="fixed-background-layer -z-10">
+                <HermesBackground />
+            </div>
+            <div className="fixed-background-layer z-0 pointer-events-none" style={{ mixBlendMode: 'screen' }}>
+                <UnicornStudio 
+                    projectId="3nh1j6pbHTPEnBpAb48a?production"
+                    key="unicorn-project-prod"
+                    pauseWhenOffscreen={true}
+                    lazyLoad={true}
+                    interactivity={false}
+                />
+            </div>
+        </>
+    )
+})
 
 export default function HeroSection() {
     const { language } = useLanguage()
-    const [jsonPath, setJsonPath] = useState('/unicorn-effect.json')
-    
-    // Handle responsive JSON loading
-    React.useEffect(() => {
-        const updateJsonPath = () => {
-            const width = window.innerWidth
-            if (width < 640) {
-                setJsonPath('/Polaris (Remix)_mobile.json')
-            } else if (width < 1024) {
-                setJsonPath('/Polaris (Remix)_tablet.json')
-            } else {
-                setJsonPath('/unicorn-effect.json')
-            }
-        }
-        
-        updateJsonPath()
-        window.addEventListener('resize', updateJsonPath)
-        
-        return () => window.removeEventListener('resize', updateJsonPath)
-    }, [])
     
     const content = {
         en: {
@@ -57,17 +56,8 @@ export default function HeroSection() {
         <>
             <main className="overflow-x-hidden">
                 <section className="relative min-h-screen">
-                    <div className="absolute inset-0 -z-10">
-                        <HermesBackground />
-                    </div>
-                    <div className="absolute inset-0 z-20" style={{ mixBlendMode: 'screen' }}>
-                        <InteractiveEffectPositioner 
-                            jsonPath={jsonPath}
-                            onPositionsSaved={(positions) => {
-                                console.log('Positions saved:', positions)
-                            }}
-                        />
-                    </div>
+                    {/* Memoized background layers prevent shifts on language change */}
+                    <BackgroundLayers />
                     <div className="relative z-10 flex min-h-screen items-center py-12 sm:py-16 lg:py-24">
                         <div className="max-w-6xl px-4 sm:px-6 lg:px-8 w-full sm:mx-auto">
                             <div className="max-w-[50%] text-left">
